@@ -1,0 +1,79 @@
+This program is written by MHooker. Anyone may download and/or modify this code to their needs. This code comes as is and any modifications or use must contain this license. Also any use or modification of this code is your problem and not mine. Please do not contact me with questions or complaints. Good luck and God Bless.
+
+
+
+
+
+
+
+using System;
+
+class Program
+{
+
+    static void Main(string[] args)
+    {
+        Console.WriteLine("What base would you like to convert from?");
+        int radix = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("What base would you like to convert to?");
+        int radix2 = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("What number to convert?");
+        string primary = Console.ReadLine();
+        int value = convertFromBaseToDecimal(primary, radix);
+        string slot = convertFromDecimalToBase(value, radix2);
+        Console.WriteLine(slot);
+        Console.ReadLine();
+    }
+
+    static int convertFromBaseToDecimal(string input, int radix)
+    {
+        int sum = 0;
+        int digitValue = 1;
+        int numsLength = input.Length;
+
+        while (numsLength > 0)
+        {
+            numsLength--;
+            int digit = characterToDigit(input[numsLength]);
+            sum = digit * digitValue + sum;
+            digitValue = digitValue * radix;
+        }
+        return sum;
+    }
+
+    static int characterToDigit(char input)
+    {
+        if ('0' <= input && input <= '9')
+            return (int)(input - '0');
+        else if ('A' <= input && input <= 'Z')
+            return (int)(input - 'A' + 10);
+        else if ('a' <= input && input <= 'z')
+            return (int)(input - 'a' + 36);
+        else
+            return -1;
+    }
+
+    static string convertFromDecimalToBase(int number, int radix2)
+    {
+        string slot = "";
+        if (number == 0) { slot = "0"; }
+        while (number > 0)
+        {
+            slot = getCharacterForDigit(number % radix2) + slot;
+            number = number / radix2;
+        }
+        return slot;
+    }
+
+    static char getCharacterForDigit(int input)
+    {
+        if (0 <= input && input <= 9)
+            return (char)(input + '0');
+        else if (10 <= input && input <= 35)
+            return (char)(input + 'A' - 10);
+        else if (36 <= input && input <= 61)
+            return (char)(input + 'a' - 36);
+        else
+            return '*';
+    }
+}
